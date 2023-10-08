@@ -45,4 +45,16 @@ class BoardImplTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Horizontal move is not allowed");
     }
+
+    @Test
+    public void whenMakeMoveVerticallyThenIllegalMove() {
+        var initialPosition = new Position(A, TWO);
+        var checker = new Checker(CheckerColor.WHITE, initialPosition);
+        var finalPosition = new Position(A, THREE);
+        board.init(List.of(checker));
+
+        assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Vertical move is not allowed");
+    }
 }
