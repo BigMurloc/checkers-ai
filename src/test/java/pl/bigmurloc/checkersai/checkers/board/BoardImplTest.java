@@ -7,10 +7,8 @@ import pl.bigmurloc.checkersai.checkers.shared.Position;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.A;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.B;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.ONE;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.TWO;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.*;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.*;
 
 class BoardImplTest {
 
@@ -51,6 +49,46 @@ class BoardImplTest {
         board.makeMove(board.availableMoves(CheckerColor.WHITE).get(0));
 
         assertThat(board.existsOnBoard(blackChecker)).isFalse();
+    }
+
+    @Test
+    public void whenCheckerIsInTheCenterAndNoNeighboursThenFourMovesAreAvailable() {
+        var whiteChecker = new Checker(1, CheckerColor.WHITE, new Position(D, SIX));
+        var checkers = List.of(whiteChecker);
+        board.init(checkers);
+
+        var moves = board.availableMoves(whiteChecker.getColor());
+
+        assertThat(moves.size()).isEqualTo(4);
+    }
+
+    @Test
+    public void whenCheckerIsInTheCenterAndFourEnemyNeighboursThenFourMovesAreAvailable() {
+        var whiteChecker = new Checker(1, CheckerColor.WHITE, new Position(D, SIX));
+        var blackChecker1 = new Checker(2, CheckerColor.BLACK, new Position(C, FIVE));
+        var blackChecker2 = new Checker(3, CheckerColor.BLACK, new Position(C, SEVEN));
+        var blackChecker3 = new Checker(4, CheckerColor.BLACK, new Position(E, FIVE));
+        var blackChecker4 = new Checker(5, CheckerColor.BLACK, new Position(E, SEVEN));
+        var checkers = List.of(whiteChecker, blackChecker1, blackChecker2, blackChecker3, blackChecker4);
+        board.init(checkers);
+
+        var moves = board.availableMoves(whiteChecker.getColor());
+
+        assertThat(moves.size()).isEqualTo(4);
+    }
+
+    @Test
+    public void whenCheckerIsInTheCenterAndThreeEnemyNeighboursThenThreeMovesAreAvailable() {
+        var whiteChecker = new Checker(1, CheckerColor.WHITE, new Position(D, SIX));
+        var blackChecker1 = new Checker(2, CheckerColor.BLACK, new Position(C, FIVE));
+        var blackChecker2 = new Checker(3, CheckerColor.BLACK, new Position(C, SEVEN));
+        var blackChecker4 = new Checker(5, CheckerColor.BLACK, new Position(E, SEVEN));
+        var checkers = List.of(whiteChecker, blackChecker1, blackChecker2, blackChecker4);
+        board.init(checkers);
+
+        var moves = board.availableMoves(whiteChecker.getColor());
+
+        assertThat(moves.size()).isEqualTo(3);
     }
 
     //todo king & man rules
