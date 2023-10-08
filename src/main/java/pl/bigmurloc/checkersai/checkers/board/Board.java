@@ -11,6 +11,8 @@ import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.*;
 
 public interface Board {
 
+    int X_DIMENSION = 10;
+    int Y_DIMENSION = 10;
     @Deprecated
     void makeMove(Checker checker, Position position);
     void makeMove(Move move);
@@ -26,9 +28,6 @@ public interface Board {
 
 @Component
 class BoardImpl implements Board {
-
-    private int xDimension = 10;
-    private int yDimension = 10;
 
     class Field {
         private Checker checker;
@@ -136,8 +135,8 @@ class BoardImpl implements Board {
             return true;
         }
 
-        for (int x = 0; x < xDimension; x++) {
-            for (int y = 0; y < yDimension; y++) {
+        for (int x = 0; x < X_DIMENSION; x++) {
+            for (int y = 0; y < Y_DIMENSION; y++) {
                 if (checker.equals(fields[x][y].checker)) {
                     return true;
                 }
@@ -162,9 +161,9 @@ class BoardImpl implements Board {
     }
 
     private void initEmptyFields() {
-        fields = new Field[xDimension][yDimension];
-        for (int x = 0; x < xDimension; x++) {
-            for (int y = 0; y < yDimension; y++) {
+        fields = new Field[X_DIMENSION][Y_DIMENSION];
+        for (int x = 0; x < X_DIMENSION; x++) {
+            for (int y = 0; y < Y_DIMENSION; y++) {
                 fields[x][y] = new Field(null, new Position(Position.Horizontal.fromX(x), Position.Vertical.fromY(y)));
             }
         }
