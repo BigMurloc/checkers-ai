@@ -1,14 +1,6 @@
 package pl.bigmurloc.checkersai.checkers.shared;
 
 public class Position {
-    public int getX() {
-        return horizontal.getX();
-    }
-
-    public int getY() {
-        return vertical.getY();
-    }
-
     public enum Horizontal {
         A,
         B,
@@ -57,6 +49,8 @@ public class Position {
         public boolean isEven() {
             return (this.ordinal() + 1) % 2 == 0; // +1 because ordinal starts from 0
         }
+
+
     }
 
     private Horizontal horizontal;
@@ -65,6 +59,14 @@ public class Position {
     public Position(Horizontal horizontal, Vertical vertical) {
         this.horizontal = horizontal;
         this.vertical = vertical;
+    }
+
+    public int getX() {
+        return horizontal.getX();
+    }
+
+    public int getY() {
+        return vertical.getY();
     }
 
 }
