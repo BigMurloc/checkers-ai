@@ -1,5 +1,6 @@
 package pl.bigmurloc.checkersai.checkers.board;
 
+import org.springframework.stereotype.Component;
 import pl.bigmurloc.checkersai.checkers.shared.Position;
 
 import java.util.ArrayList;
@@ -17,8 +18,13 @@ public interface Board {
     boolean isOccupied(Position position);
 
     List<Move> availableMoves(CheckerColor color);
+
+    List<FieldDto> getFields();
+
+    void init();
 }
 
+@Component
 class BoardImpl implements Board {
 
     private int xDimension = 10;
@@ -39,6 +45,10 @@ class BoardImpl implements Board {
 
         boolean isOccupied(CheckerColor color) {
             return checker != null && checker.getColor() == color;
+        }
+
+        FieldDto toDto() {
+            return new FieldDto(checker, position);
         }
     }
 
@@ -96,6 +106,19 @@ class BoardImpl implements Board {
                 if (field.isOccupied(checkerColor)) {
                     result.addAll(analyzesMovesForField(field));
                 }
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<FieldDto> getFields() {
+        List<FieldDto> result = new ArrayList<>();
+
+        for (Field[] fields : fields) {
+            for (Field field : fields) {
+                result.add(field.toDto());
             }
         }
 
