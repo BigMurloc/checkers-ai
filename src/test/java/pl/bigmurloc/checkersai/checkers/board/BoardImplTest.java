@@ -91,6 +91,15 @@ class BoardImplTest {
         assertThat(moves.size()).isEqualTo(3);
     }
 
+    @Test
+    public void whenBoardIsInitializedByDefaultThereShouldBeOnlyNineMovesAvailable() {
+        board.init();
+
+        var moves = board.availableMoves(CheckerColor.WHITE);
+
+        assertThat(moves.size()).isEqualTo(9);
+    }
+
     //todo king & man rules
     //todo test when makeMove is made to allied occupied field
     //todo test when makeMove is made to enemy occupied field then position is diagonally after the enemy checker piece

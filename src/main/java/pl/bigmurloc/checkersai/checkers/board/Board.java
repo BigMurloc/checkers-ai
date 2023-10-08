@@ -195,15 +195,16 @@ class BoardImpl implements Board {
         List<Move> result = new ArrayList<>();
         Position currentPosition = field.position;
         CheckerColor currentColor = field.checker.getColor();
+        CheckerColor enemyColor = field.checker.getColor() == CheckerColor.BLACK ? CheckerColor.WHITE : CheckerColor.BLACK;
         List<Position> diagonalPositions = currentPosition.getDiagonalPositions();
         var hasEnemyNeighboursAvailableForCapture = hasEnemyNeighboursAvailableForCapture(currentPosition, currentColor);
 
         for (Position diagonalPosition : diagonalPositions) {
             verifyMoveIsLegal(currentPosition, diagonalPosition);
             var diagonalField = getField(diagonalPosition);
-            if (diagonalField.isOccupied() && diagonalPosition.hasNextDiagonalPositionFrom(currentPosition)) {
+            if (diagonalField.isOccupied(enemyColor) &&  diagonalPosition.hasNextDiagonalPositionFrom(currentPosition)) {
                 result.add(new Move(currentPosition, diagonalPosition.nextDiagonalPositionFrom(currentPosition), currentColor));
-            } else if (!hasEnemyNeighboursAvailableForCapture) {
+            } else if (!hasEnemyNeighboursAvailableForCapture && !diagonalField.isOccupied(currentColor)) {
                 result.add(new Move(currentPosition, diagonalPosition, currentColor));
             }
         }
