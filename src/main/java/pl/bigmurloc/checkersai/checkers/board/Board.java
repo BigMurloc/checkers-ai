@@ -10,9 +10,13 @@ import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.*;
 
 public interface Board {
 
+    @Deprecated
     void makeMove(Checker checker, Position position);
+    void makeMove(Move move);
 
     boolean isOccupied(Position position);
+
+    List<Move> availableMoves();
 }
 
 class BoardImpl implements Board {
@@ -54,20 +58,38 @@ class BoardImpl implements Board {
     }
 
     @Override
+    @Deprecated
     public void makeMove(Checker checker, Position newPosition) {
         var oldPosition = checker.getPosition();
         var oldField = getField(oldPosition);
         var newField = getField(newPosition);
 
         verifyMoveIsLegal(oldPosition, newPosition);
-        removeEnemyCheckersIfJumpedOver(checker, oldPosition, newPosition);
+        removeEnemyCheckersIfJumpedOver(checker.getColor(), oldPosition, newPosition);
 
         oldField.checker = null;
         newField.checker = checker;
     }
 
+    @Override
+    public void makeMove(Move move) {
+        var oldField = getField(move.currentPosition());
+        var newField = getField(move.newPosition());
+
+        verifyMoveIsLegal(move.currentPosition(), move.newPosition());
+        removeEnemyCheckersIfJumpedOver(move.checkerColor(), move.currentPosition(), move.newPosition());
+
+        newField.checker = oldField.checker;
+        oldField.checker = null;
+    }
+
     public boolean isOccupied(Position position) {
         return getField(position).isOccupied();
+    }
+
+    @Override
+    public List<Move> availableMoves() {
+        return null;
     }
 
     boolean existsOnBoard(Checker checker) {
@@ -92,9 +114,9 @@ class BoardImpl implements Board {
         return false;
     }
 
-    private void removeEnemyCheckersIfJumpedOver(Checker checker, Position oldPosition, Position newPosition) {
+    private void removeEnemyCheckersIfJumpedOver(CheckerColor checkerColor, Position oldPosition, Position newPosition) {
         List<Position> diagonalPositions = Position.getDiagonalPositionsBetweenTwoPoints(oldPosition, newPosition);
-        CheckerColor enemyColor = checker.getColor() == CheckerColor.WHITE ? CheckerColor.BLACK : CheckerColor.WHITE;
+        CheckerColor enemyColor = checkerColor == CheckerColor.WHITE ? CheckerColor.BLACK : CheckerColor.WHITE;
         for (Position diagonalPosition : diagonalPositions) {
             var field = getField(diagonalPosition);
             if (field.isOccupied()) {
