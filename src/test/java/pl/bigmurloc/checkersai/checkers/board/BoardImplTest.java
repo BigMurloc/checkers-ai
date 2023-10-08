@@ -21,13 +21,15 @@ class BoardImplTest {
     }
     @Test
     public void whenMakeMoveDiagonallyThenMoveIsMade() {
-        var initialPosition = new Position(A, TWO);
+        var initialPosition = new Position(A, ONE);
         var checker = new Checker(1, CheckerColor.WHITE, initialPosition);
-        var finalPosition = new Position(B, THREE);
+        var finalPosition = new Position(B, TWO);
         board.init(List.of(checker));
+        var moves = board.availableMoves(checker.getColor());
 
-        board.makeMove(checker, finalPosition);
+        board.makeMove(moves.get(0));
 
+        assertThat(moves.size()).isEqualTo(1);
         assertThat(board.isOccupied(initialPosition)).isFalse();
         assertThat(board.isOccupied(finalPosition)).isTrue();
     }

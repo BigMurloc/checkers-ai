@@ -5,6 +5,30 @@ import java.util.List;
 import java.util.Objects;
 
 public class Position {
+    public List<Position> getDiagonalPositions() {
+        List<Position> positions = new ArrayList<>();
+        int x = getX();
+        int y = getY();
+
+        if (x > 0 && y > 0) {
+            positions.add(new Position(Horizontal.fromX(x - 1), Vertical.fromY(y - 1)));
+        }
+
+        if (x < 9 && y < 9) {
+            positions.add(new Position(Horizontal.fromX(x + 1), Vertical.fromY(y + 1)));
+        }
+
+        if (x > 0 && y < 9) {
+            positions.add(new Position(Horizontal.fromX(x - 1), Vertical.fromY(y + 1)));
+        }
+
+        if (x < 9 && y > 0) {
+            positions.add(new Position(Horizontal.fromX(x + 1), Vertical.fromY(y - 1)));
+        }
+
+        return positions;
+    }
+
     public enum Horizontal {
         A,
         B,

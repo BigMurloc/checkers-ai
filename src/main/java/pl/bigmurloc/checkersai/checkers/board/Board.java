@@ -16,7 +16,7 @@ public interface Board {
 
     boolean isOccupied(Position position);
 
-    List<Move> availableMoves();
+    List<Move> availableMoves(CheckerColor color);
 }
 
 class BoardImpl implements Board {
@@ -88,8 +88,18 @@ class BoardImpl implements Board {
     }
 
     @Override
-    public List<Move> availableMoves() {
-        return null;
+    public List<Move> availableMoves(CheckerColor checkerColor) {
+        List<Move> result = new ArrayList<>();
+
+        for (Field[] fields : fields) {
+            for (Field field : fields) {
+                if (field.isOccupied(checkerColor)) {
+                    result.addAll(analyzesMovesForField(field));
+                }
+            }
+        }
+
+        return result;
     }
 
     boolean existsOnBoard(Checker checker) {
@@ -157,6 +167,20 @@ class BoardImpl implements Board {
         if (oldPosition.getX() == newPosition.getX()) {
             throw new IllegalMoveException("Vertical move is not allowed");
         }
+    }
+
+    private List<Move> analyzesMovesForField(Field field) {
+        List<Move> result = new ArrayList<>();
+        Position currentPosition = field.position;
+        CheckerColor currentColor = field.checker.getColor();
+        List<Position> diagonalPositions = currentPosition.getDiagonalPositions();
+
+        for (Position diagonalPosition : diagonalPositions) {
+            verifyMoveIsLegal(currentPosition, diagonalPosition);
+            result.add(new Move(currentPosition, diagonalPosition, currentColor));
+        }
+
+        return result;
     }
 }
 
