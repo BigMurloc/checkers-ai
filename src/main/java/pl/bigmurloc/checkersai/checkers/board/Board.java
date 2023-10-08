@@ -69,8 +69,26 @@ class BoardImpl implements Board {
         return getField(position).isOccupied();
     }
 
-    public boolean isOccupied(Position position, CheckerColor color) {
-        return getField(position).isOccupied(color);
+    boolean existsOnBoard(Checker checker) {
+        if (checker == null) {
+            throw new IllegalArgumentException();
+        }
+
+        var checkerFromField = getField(checker.getPosition()).checker;
+
+        if (checkerFromField != null) {
+            return true;
+        }
+
+        for (int x = 0; x < xDimension; x++) {
+            for (int y = 0; y < yDimension; y++) {
+                if (checker.equals(fields[x][y].checker)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void initEmptyFields() {

@@ -86,7 +86,7 @@ class BoardImplTest {
 
         board.makeMove(whiteChecker, new Position(C, THREE));
 
-        assertThat(board.exists(blackChecker)).isFalse();
+        assertThat(board.existsOnBoard(blackChecker)).isFalse();
     }
 
     //todo king & man rules
