@@ -1,18 +1,8 @@
 package pl.bigmurloc.checkersai.checkers.board;
 
-public interface Checker {
+import pl.bigmurloc.checkersai.checkers.shared.Position;
 
-    void promote();
-
-}
-
-
-class CheckerImpl implements Checker {
-
-    enum CheckerColor {
-        WHITE,
-        BLACK
-    }
+class Checker {
 
     enum CheckerRank {
         MAN,
@@ -21,13 +11,13 @@ class CheckerImpl implements Checker {
 
     private CheckerColor color;
     private CheckerRank rank = CheckerRank.MAN;
+    private Position position;
 
-    @Override
     public void promote() {
         this.rank = CheckerRank.KING;
     }
 
-    CheckerImpl(CheckerColor color) {
+    Checker(CheckerColor color, Position position) {
         this.color = color;
     }
 }

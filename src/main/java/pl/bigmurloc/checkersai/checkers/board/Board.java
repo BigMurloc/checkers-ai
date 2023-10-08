@@ -6,11 +6,18 @@ public interface Board {
 
     void makeMove(Checker checker, Position position);
 
+    boolean isOccupied(Position position);
 }
 
 class BoardImpl implements Board {
 
+    BoardImpl() {
+    }
     @Override
     public void makeMove(Checker checker, Position position) {
+    }
+
+    public boolean isOccupied(Position position) {
+        return false;
     }
 }

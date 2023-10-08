@@ -1,7 +1,7 @@
 package pl.bigmurloc.checkersai.checkers.shared;
 
 public class Position {
-    enum Horizontal {
+    public enum Horizontal {
         A,
         B,
         C,
@@ -12,7 +12,7 @@ public class Position {
         H
     }
 
-    enum Vertical {
+    public enum Vertical {
         ONE,
         TWO,
         THREE,
