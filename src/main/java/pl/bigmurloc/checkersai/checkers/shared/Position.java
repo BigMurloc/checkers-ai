@@ -29,6 +29,14 @@ public class Position {
         return positions;
     }
 
+    public Position nextDiagonalPositionFrom(Position originPosition) {
+        return new DiagonalPointsFinder().nextDiagonalPositionFrom(this, originPosition);
+    }
+
+    public boolean hasNextDiagonalPositionFrom(Position originPosition) {
+        return new DiagonalPointsFinder().hasNextDiagonalPosition(this, originPosition);
+    }
+
     public enum Horizontal {
         A,
         B,
@@ -138,6 +146,32 @@ class DiagonalPointsFinder {
             default:
                 throw new IllegalArgumentException("Direction not supported");
         }
+    }
+
+    Position nextDiagonalPositionFrom(Position currentPosition, Position originPosition) {
+        var direction = getDirection(originPosition, currentPosition);
+
+        return switch (direction) {
+            case UP_LEFT ->
+                    new Position(Position.Horizontal.fromX(currentPosition.getX() - 1), Position.Vertical.fromY(currentPosition.getY() + 1));
+            case UP_RIGHT ->
+                    new Position(Position.Horizontal.fromX(currentPosition.getX() + 1), Position.Vertical.fromY(currentPosition.getY() + 1));
+            case DOWN_LEFT ->
+                    new Position(Position.Horizontal.fromX(currentPosition.getX() - 1), Position.Vertical.fromY(currentPosition.getY() - 1));
+            case DOWN_RIGHT ->
+                    new Position(Position.Horizontal.fromX(currentPosition.getX() + 1), Position.Vertical.fromY(currentPosition.getY() - 1));
+        };
+    }
+
+    boolean hasNextDiagonalPosition(Position currentPosition, Position originPosition) {
+        var direction = getDirection(originPosition, currentPosition);
+
+        return switch (direction) {
+            case UP_LEFT -> currentPosition.getX() > 0 && currentPosition.getY() < 9;
+            case UP_RIGHT -> currentPosition.getX() < 9 && currentPosition.getY() < 9;
+            case DOWN_LEFT -> currentPosition.getX() > 0 && currentPosition.getY() > 0;
+            case DOWN_RIGHT -> currentPosition.getX() < 9 && currentPosition.getY() > 0;
+        };
     }
 
     private List<Position> findDiagonalPointsDownRight(Position a, Position b) {

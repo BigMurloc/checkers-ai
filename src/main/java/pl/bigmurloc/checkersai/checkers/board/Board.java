@@ -177,7 +177,12 @@ class BoardImpl implements Board {
 
         for (Position diagonalPosition : diagonalPositions) {
             verifyMoveIsLegal(currentPosition, diagonalPosition);
-            result.add(new Move(currentPosition, diagonalPosition, currentColor));
+            var diagonalField = getField(diagonalPosition);
+            if (diagonalField.isOccupied() && diagonalPosition.hasNextDiagonalPositionFrom(currentPosition)) {
+                result.add(new Move(currentPosition, diagonalPosition.nextDiagonalPositionFrom(currentPosition), currentColor));
+            } else {
+                result.add(new Move(currentPosition, diagonalPosition, currentColor));
+            }
         }
 
         return result;
