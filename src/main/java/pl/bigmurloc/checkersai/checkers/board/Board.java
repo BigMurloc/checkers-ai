@@ -13,8 +13,8 @@ public interface Board {
 
 class BoardImpl implements Board {
 
-    private int xDimension = 8;
-    private int yDimension = 8;
+    private int xDimension = 10;
+    private int yDimension = 10;
 
     class Field {
         private Checker checker;
