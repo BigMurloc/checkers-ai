@@ -174,18 +174,33 @@ class BoardImpl implements Board {
         Position currentPosition = field.position;
         CheckerColor currentColor = field.checker.getColor();
         List<Position> diagonalPositions = currentPosition.getDiagonalPositions();
+        var hasEnemyNeighboursAvailableForCapture = hasEnemyNeighboursAvailableForCapture(currentPosition, currentColor);
 
         for (Position diagonalPosition : diagonalPositions) {
             verifyMoveIsLegal(currentPosition, diagonalPosition);
             var diagonalField = getField(diagonalPosition);
             if (diagonalField.isOccupied() && diagonalPosition.hasNextDiagonalPositionFrom(currentPosition)) {
                 result.add(new Move(currentPosition, diagonalPosition.nextDiagonalPositionFrom(currentPosition), currentColor));
-            } else {
+            } else if (!hasEnemyNeighboursAvailableForCapture) {
                 result.add(new Move(currentPosition, diagonalPosition, currentColor));
             }
         }
 
         return result;
+    }
+
+    private boolean hasEnemyNeighboursAvailableForCapture(Position position, CheckerColor color) {
+        List<Position> diagonalPositions = position.getDiagonalPositions();
+        for (Position diagonalPosition : diagonalPositions) {
+            var field = getField(diagonalPosition);
+            if (field.isOccupied() && field.checker.getColor() != color) {
+                var nextDiagonalPosition = diagonalPosition.nextDiagonalPositionFrom(position);
+                if (nextDiagonalPosition != null && !getField(nextDiagonalPosition).isOccupied()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 
