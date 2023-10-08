@@ -93,6 +93,9 @@ class BoardImpl implements Board {
     }
 
     private void verifyMoveIsLegal(Position oldPosition, Position newPosition) {
+        if (oldPosition.equals(newPosition)) {
+            throw new IllegalMoveException("Move to the same position is not allowed");
+        }
         if (oldPosition.getY() == newPosition.getY()) {
             throw new IllegalMoveException("Horizontal move is not allowed");
         }
