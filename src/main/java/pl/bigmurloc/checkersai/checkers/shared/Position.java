@@ -1,6 +1,14 @@
 package pl.bigmurloc.checkersai.checkers.shared;
 
 public class Position {
+    public int getX() {
+        return horizontal.getX();
+    }
+
+    public int getY() {
+        return vertical.getY();
+    }
+
     public enum Horizontal {
         A,
         B,
@@ -9,7 +17,15 @@ public class Position {
         E,
         F,
         G,
-        H
+        H;
+
+        public int getX() {
+            return this.ordinal();
+        }
+
+        public static Horizontal fromX(int x) {
+            return Horizontal.values()[x];
+        }
     }
 
     public enum Vertical {
@@ -20,7 +36,15 @@ public class Position {
         FIVE,
         SIX,
         SEVEN,
-        EIGHT
+        EIGHT;
+
+        public int getY() {
+            return this.ordinal();
+        }
+
+        public static Vertical fromY(int y) {
+            return Vertical.values()[y];
+        }
     }
 
     private Horizontal horizontal;

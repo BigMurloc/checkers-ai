@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.bigmurloc.checkersai.checkers.shared.Position;
 
+import java.util.List;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.A;
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.B;
@@ -11,7 +13,7 @@ import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.*;
 
 class BoardImplTest {
 
-    Board board;
+    BoardImpl board;
 
     @BeforeEach
     public void setUp() {
@@ -22,6 +24,7 @@ class BoardImplTest {
         var initialPosition = new Position(A, TWO);
         var checker = new Checker(CheckerColor.WHITE, initialPosition);
         var finalPosition = new Position(B, THREE);
+        board.init(List.of(checker));
 
         board.makeMove(checker, finalPosition);
 

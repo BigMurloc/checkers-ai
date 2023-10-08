@@ -17,7 +17,12 @@ class Checker {
         this.rank = CheckerRank.KING;
     }
 
+    Position getPosition() {
+        return position;
+    }
+
     Checker(CheckerColor color, Position position) {
         this.color = color;
+        this.position = position;
     }
 }
