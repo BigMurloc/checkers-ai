@@ -9,6 +9,7 @@ class Checker {
         KING
     }
 
+    private int id;
     private CheckerColor color;
     private CheckerRank rank = CheckerRank.MAN;
     private Position position;
@@ -25,7 +26,7 @@ class Checker {
         return color;
     }
 
-    Checker(CheckerColor color, Position position) {
+    Checker(int id, CheckerColor color, Position position) {
         this.color = color;
         this.position = position;
     }

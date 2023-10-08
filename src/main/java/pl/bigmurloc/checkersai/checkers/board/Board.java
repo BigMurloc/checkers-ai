@@ -44,7 +44,7 @@ class BoardImpl implements Board {
     }
 
     public void init() {
-        List<Checker> checkers =  BoardInitializationHelper.getCheckersAtPositions();
+        List<Checker> checkers =  new BoardInitializationHelper().getCheckersAtPositions();
         init(checkers);
     }
 
@@ -107,30 +107,33 @@ class BoardImpl implements Board {
 
 class BoardInitializationHelper {
 
-    private static final List<Position.Horizontal> whiteRows = List.of(A, B, C, D);
-    private static final List<Position.Horizontal> blackRows = List.of(G, H, I, J);
-    static List<Checker> getCheckersAtPositions() {
+    private int id = 1;
+    private final List<Position.Horizontal> whiteRows = List.of(A, B, C, D);
+    private final List<Position.Horizontal> blackRows = List.of(G, H, I, J);
+    List<Checker> getCheckersAtPositions() {
         return initCheckers();
     }
 
-    private static List<Checker> initCheckers() {
+    private List<Checker> initCheckers() {
         List<Position.Horizontal> rows = Stream.of(whiteRows, blackRows).flatMap(List::stream).toList();
         List<Checker> result = new ArrayList<>();
 
         for(Position.Horizontal horizontal : rows) {
             for(Position.Vertical vertical : Position.Vertical.values()) {
                 if(vertical.isOdd() && isOddNumberedRow(horizontal)) {
-                    result.add(new Checker(resolveColorBasedOnRow(horizontal), new Position(horizontal, vertical)));
+                    result.add(new Checker(id, resolveColorBasedOnRow(horizontal), new Position(horizontal, vertical)));
+                    id++;
                 }
                 if (vertical.isEven() && isEvenNumberedRow(horizontal)) {
-                    result.add(new Checker(resolveColorBasedOnRow(horizontal), new Position(horizontal, vertical)));
+                    result.add(new Checker(id, resolveColorBasedOnRow(horizontal), new Position(horizontal, vertical)));
+                    id++;
                 }
             }
         }
         return result;
     }
 
-    private static CheckerColor resolveColorBasedOnRow(Position.Horizontal horizontal) {
+    private CheckerColor resolveColorBasedOnRow(Position.Horizontal horizontal) {
         if (!whiteRows.contains(horizontal) && !blackRows.contains(horizontal)) {
             throw new IllegalArgumentException("Horizontal position is not valid");
         }
@@ -138,11 +141,11 @@ class BoardInitializationHelper {
         return whiteRows.contains(horizontal) ? CheckerColor.WHITE : CheckerColor.BLACK;
     }
 
-    private static boolean isOddNumberedRow(Position.Horizontal horizontal) {
+    private boolean isOddNumberedRow(Position.Horizontal horizontal) {
         return List.of(A, C, G, I).contains(horizontal);
     }
 
-    private static boolean isEvenNumberedRow(Position.Horizontal horizontal) {
+    private boolean isEvenNumberedRow(Position.Horizontal horizontal) {
         return List.of(B, D, H, J).contains(horizontal);
     }
 }
