@@ -17,7 +17,9 @@ public class Position {
         E,
         F,
         G,
-        H;
+        H,
+        I,
+        J;
 
         public int getX() {
             return this.ordinal();
@@ -36,7 +38,9 @@ public class Position {
         FIVE,
         SIX,
         SEVEN,
-        EIGHT;
+        EIGHT,
+        NINE,
+        TEN;
 
         public int getY() {
             return this.ordinal();

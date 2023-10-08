@@ -10,8 +10,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.A;
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.B;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.THREE;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.TWO;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.*;
 
 class BoardImplTest {
 
@@ -56,5 +55,14 @@ class BoardImplTest {
         assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
                 .isInstanceOf(IllegalMoveException.class)
                 .hasMessageContaining("Vertical move is not allowed");
+    }
+
+    //test for empty field move
+    //test for the same position move
+    @Test
+    public void whenBoardIsInitializedByDefaultThenCheckersAreAtCorrectFields() {
+        board.init();
+
+        BoardInitTestUtils.assertThatIsBoardInitializedCorrectly(board);
     }
 }

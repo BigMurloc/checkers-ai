@@ -28,11 +28,19 @@ class BoardImpl implements Board {
         boolean isOccupied() {
             return checker != null;
         }
+
+        boolean isOccupied(CheckerColor color) {
+            return checker != null && checker.getColor() == color;
+        }
     }
 
     private Field[][] fields;
 
     BoardImpl() {
+    }
+
+    public void init() {
+
     }
 
     public void init(List<Checker> checkers) {
@@ -54,6 +62,10 @@ class BoardImpl implements Board {
 
     public boolean isOccupied(Position position) {
         return getField(position).isOccupied();
+    }
+
+    public boolean isOccupied(Position position, CheckerColor color) {
+        return getField(position).isOccupied(color);
     }
 
     private void initEmptyFields() {

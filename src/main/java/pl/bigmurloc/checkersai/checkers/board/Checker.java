@@ -21,6 +21,10 @@ class Checker {
         return position;
     }
 
+    CheckerColor getColor() {
+        return color;
+    }
+
     Checker(CheckerColor color, Position position) {
         this.color = color;
         this.position = position;
