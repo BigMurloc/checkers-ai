@@ -2,7 +2,11 @@ package pl.bigmurloc.checkersai.checkers.board;
 
 import pl.bigmurloc.checkersai.checkers.shared.Position;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.*;
 
 public interface Board {
 
@@ -40,7 +44,8 @@ class BoardImpl implements Board {
     }
 
     public void init() {
-
+        List<Checker> checkers =  BoardInitializationHelper.getCheckersAtPositions();
+        init(checkers);
     }
 
     public void init(List<Checker> checkers) {
@@ -94,5 +99,47 @@ class BoardImpl implements Board {
         if (oldPosition.getX() == newPosition.getX()) {
             throw new IllegalMoveException("Vertical move is not allowed");
         }
+    }
+}
+
+class BoardInitializationHelper {
+
+    private static final List<Position.Horizontal> whiteRows = List.of(A, B, C, D);
+    private static final List<Position.Horizontal> blackRows = List.of(G, H, I, J);
+    static List<Checker> getCheckersAtPositions() {
+        return initCheckers();
+    }
+
+    private static List<Checker> initCheckers() {
+        List<Position.Horizontal> rows = Stream.of(whiteRows, blackRows).flatMap(List::stream).toList();
+        List<Checker> result = new ArrayList<>();
+
+        for(Position.Horizontal horizontal : rows) {
+            for(Position.Vertical vertical : Position.Vertical.values()) {
+                if(vertical.isOdd() && isOddNumberedRow(horizontal)) {
+                    result.add(new Checker(resolveColorBasedOnRow(horizontal), new Position(horizontal, vertical)));
+                }
+                if (vertical.isEven() && isEvenNumberedRow(horizontal)) {
+                    result.add(new Checker(resolveColorBasedOnRow(horizontal), new Position(horizontal, vertical)));
+                }
+            }
+        }
+        return result;
+    }
+
+    private static CheckerColor resolveColorBasedOnRow(Position.Horizontal horizontal) {
+        if (!whiteRows.contains(horizontal) && !blackRows.contains(horizontal)) {
+            throw new IllegalArgumentException("Horizontal position is not valid");
+        }
+
+        return whiteRows.contains(horizontal) ? CheckerColor.WHITE : CheckerColor.BLACK;
+    }
+
+    private static boolean isOddNumberedRow(Position.Horizontal horizontal) {
+        return List.of(A, C, G, I).contains(horizontal);
+    }
+
+    private static boolean isEvenNumberedRow(Position.Horizontal horizontal) {
+        return List.of(B, D, H, J).contains(horizontal);
     }
 }

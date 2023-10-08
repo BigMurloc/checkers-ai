@@ -49,6 +49,14 @@ public class Position {
         public static Vertical fromY(int y) {
             return Vertical.values()[y];
         }
+
+        public boolean isOdd() {
+            return (this.ordinal() + 1) % 2 != 0; // +1 because ordinal starts from 0
+        }
+
+        public boolean isEven() {
+            return (this.ordinal() + 1) % 2 == 0; // +1 because ordinal starts from 0
+        }
     }
 
     private Horizontal horizontal;
