@@ -33,42 +33,6 @@ class BoardImplTest {
         assertThat(board.isOccupied(initialPosition)).isFalse();
         assertThat(board.isOccupied(finalPosition)).isTrue();
     }
-
-    @Test
-    public void whenMakeMoveHorizontallyThenIllegalMove() {
-        var initialPosition = new Position(A, TWO);
-        var checker = new Checker(1, CheckerColor.WHITE, initialPosition);
-        var finalPosition = new Position(B, TWO);
-        board.init(List.of(checker));
-
-        assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
-                .isInstanceOf(IllegalMoveException.class)
-                .hasMessageContaining("Horizontal move is not allowed");
-    }
-
-    @Test
-    public void whenMakeMoveVerticallyThenIllegalMove() {
-        var initialPosition = new Position(A, TWO);
-        var checker = new Checker(1, CheckerColor.WHITE, initialPosition);
-        var finalPosition = new Position(A, THREE);
-        board.init(List.of(checker));
-
-        assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
-                .isInstanceOf(IllegalMoveException.class)
-                .hasMessageContaining("Vertical move is not allowed");
-    }
-
-    @Test
-    public void whenMakeMoveOnTheSamePositionThenIllegalMove() {
-        var initialPosition = new Position(A, TWO);
-        var checker = new Checker(1, CheckerColor.WHITE, initialPosition);
-        var finalPosition = new Position(A, TWO);
-        board.init(List.of(checker));
-
-        assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
-                .isInstanceOf(IllegalMoveException.class)
-                .hasMessageContaining("Move to the same position is not allowed");
-    }
     @Test
     public void whenBoardIsInitializedByDefaultThenCheckersAreAtCorrectFields() {
         board.init();
@@ -79,14 +43,12 @@ class BoardImplTest {
     // when capture is made then checker is removed from board
     @Test
     public void whenMakeMoveCapturesEnemyCheckerThenEnemyCheckerIsRemovedFromTheBoard() {
-        var initialWhitePosition = new Position(A, ONE);
-        var initialBlackPosition = new Position(B, TWO);
-        var whiteChecker = new Checker(1, CheckerColor.WHITE, initialWhitePosition);
-        var blackChecker = new Checker(2, CheckerColor.BLACK, initialBlackPosition);
+        var whiteChecker = new Checker(1, CheckerColor.WHITE, new Position(A, ONE));
+        var blackChecker = new Checker(2, CheckerColor.BLACK, new Position(B, TWO));
         var checkers = List.of(whiteChecker, blackChecker);
         board.init(checkers);
 
-        board.makeMove(whiteChecker, new Position(C, THREE));
+        board.makeMove(board.availableMoves(CheckerColor.WHITE).get(0));
 
         assertThat(board.existsOnBoard(blackChecker)).isFalse();
     }
