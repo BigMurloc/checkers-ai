@@ -3,6 +3,7 @@ package pl.bigmurloc.checkersai.checkers.game;
 import org.springframework.stereotype.Component;
 import pl.bigmurloc.checkersai.checkers.board.Board;
 import pl.bigmurloc.checkersai.checkers.board.BoardPrinter;
+import pl.bigmurloc.checkersai.checkers.board.CheckerColor;
 
 @Component
 public class Game {
@@ -18,5 +19,9 @@ public class Game {
     public void init() {
         board.init();
         boardPrinter.printBoard(board.getFields());
+        System.out.println("Available moves: ");
+        board.availableMoves(CheckerColor.WHITE).forEach((move) -> {
+            System.out.println(move + ", ");
+        });
     }
 }

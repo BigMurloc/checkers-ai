@@ -1,5 +1,5 @@
 package pl.bigmurloc.checkersai.checkers.board;
 
-enum CheckerColor {
+public enum CheckerColor {
     WHITE, BLACK
 }

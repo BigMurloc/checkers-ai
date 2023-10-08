@@ -29,6 +29,11 @@ public class Position {
         return positions;
     }
 
+    @Override
+    public String toString() {
+        return horizontal.toString() + vertical.toString();
+    }
+
     public Position nextDiagonalPositionFrom(Position originPosition) {
         return new DiagonalPointsFinder().nextDiagonalPositionFrom(this, originPosition);
     }
@@ -86,7 +91,21 @@ public class Position {
             return (this.ordinal() + 1) % 2 == 0; // +1 because ordinal starts from 0
         }
 
-
+        @Override
+        public String toString() {
+            return switch (this) {
+                case ONE -> "1";
+                case TWO -> "2";
+                case THREE -> "3";
+                case FOUR -> "4";
+                case FIVE -> "5";
+                case SIX -> "6";
+                case SEVEN -> "7";
+                case EIGHT -> "8";
+                case NINE -> "9";
+                case TEN -> "10";
+            };
+        }
     }
 
     private Horizontal horizontal;
