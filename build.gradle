@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'net.sourceforge:javaml:0.1.7'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
