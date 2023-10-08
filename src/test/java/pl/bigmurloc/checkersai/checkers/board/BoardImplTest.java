@@ -7,9 +7,10 @@ import pl.bigmurloc.checkersai.checkers.shared.Position;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.*;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.*;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.A;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.B;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.ONE;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.TWO;
 
 class BoardImplTest {
 
@@ -40,7 +41,6 @@ class BoardImplTest {
         BoardInitTestUtils.assertThatIsBoardInitializedCorrectly(board);
     }
 
-    // when capture is made then checker is removed from board
     @Test
     public void whenMakeMoveCapturesEnemyCheckerThenEnemyCheckerIsRemovedFromTheBoard() {
         var whiteChecker = new Checker(1, CheckerColor.WHITE, new Position(A, ONE));
