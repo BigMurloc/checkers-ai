@@ -60,6 +60,7 @@ class BoardImpl implements Board {
         var newField = getField(newPosition);
 
         verifyMoveIsLegal(oldPosition, newPosition);
+        removeEnemyCheckersIfJumpedOver(checker, oldPosition, newPosition);
 
         oldField.checker = null;
         newField.checker = checker;
@@ -89,6 +90,20 @@ class BoardImpl implements Board {
         }
 
         return false;
+    }
+
+    private void removeEnemyCheckersIfJumpedOver(Checker checker, Position oldPosition, Position newPosition) {
+        List<Position> diagonalPositions = Position.getDiagonalPositionsBetweenTwoPoints(oldPosition, newPosition);
+        CheckerColor enemyColor = checker.getColor() == CheckerColor.WHITE ? CheckerColor.BLACK : CheckerColor.WHITE;
+        for (Position diagonalPosition : diagonalPositions) {
+            var field = getField(diagonalPosition);
+            if (field.isOccupied()) {
+                getField(diagonalPosition);
+                if (field.checker.getColor() == enemyColor) {
+                    field.checker = null;
+                }
+            }
+        }
     }
 
     private void initEmptyFields() {
