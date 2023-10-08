@@ -57,8 +57,17 @@ class BoardImplTest {
                 .hasMessageContaining("Vertical move is not allowed");
     }
 
-    //test for empty field move
-    //test for the same position move
+    @Test
+    public void whenMakeMoveOnTheSamePositionThenIllegalMove() {
+        var initialPosition = new Position(A, TWO);
+        var checker = new Checker(CheckerColor.WHITE, initialPosition);
+        var finalPosition = new Position(A, TWO);
+        board.init(List.of(checker));
+
+        assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
+                .isInstanceOf(IllegalMoveException.class)
+                .hasMessageContaining("Move to the same position is not allowed");
+    }
     @Test
     public void whenBoardIsInitializedByDefaultThenCheckersAreAtCorrectFields() {
         board.init();
