@@ -7,9 +7,11 @@ import pl.bigmurloc.checkersai.checkers.shared.Position;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.A;
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.B;
-import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.*;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.THREE;
+import static pl.bigmurloc.checkersai.checkers.shared.Position.Vertical.TWO;
 
 class BoardImplTest {
 
@@ -20,7 +22,7 @@ class BoardImplTest {
         board = new BoardImpl();
     }
     @Test
-    public void whenMakeMoveThenMoveIsMade() {
+    public void whenMakeMoveDiagonallyThenMoveIsMade() {
         var initialPosition = new Position(A, TWO);
         var checker = new Checker(CheckerColor.WHITE, initialPosition);
         var finalPosition = new Position(B, THREE);
@@ -32,4 +34,15 @@ class BoardImplTest {
         assertThat(board.isOccupied(finalPosition)).isTrue();
     }
 
+    @Test
+    public void whenMakeMoveHorizontallyThenIllegalMove() {
+        var initialPosition = new Position(A, TWO);
+        var checker = new Checker(CheckerColor.WHITE, initialPosition);
+        var finalPosition = new Position(B, TWO);
+        board.init(List.of(checker));
+
+        assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Horizontal move is not allowed");
+    }
 }
