@@ -79,5 +79,8 @@ class BoardImpl implements Board {
         if (oldPosition.getY() == newPosition.getY()) {
             throw new IllegalArgumentException("Horizontal move is not allowed");
         }
+        if (oldPosition.getX() == newPosition.getX()) {
+            throw new IllegalArgumentException("Vertical move is not allowed");
+        }
     }
 }
