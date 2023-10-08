@@ -45,6 +45,9 @@ class BoardImpl implements Board {
         var oldPosition = checker.getPosition();
         var oldField = getField(oldPosition);
         var newField = getField(newPosition);
+
+        verifyMoveIsLegal(oldPosition, newPosition);
+
         oldField.checker = null;
         newField.checker = checker;
     }
@@ -70,5 +73,11 @@ class BoardImpl implements Board {
 
     private Field getField(Position position) {
         return fields[position.getX()][position.getY()];
+    }
+
+    private void verifyMoveIsLegal(Position oldPosition, Position newPosition) {
+        if (oldPosition.getY() == newPosition.getY()) {
+            throw new IllegalArgumentException("Horizontal move is not allowed");
+        }
     }
 }
