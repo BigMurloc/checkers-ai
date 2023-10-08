@@ -24,6 +24,10 @@ class BoardImpl implements Board {
             this.checker = checker;
             this.position = position;
         }
+
+        boolean isOccupied() {
+            return checker != null;
+        }
     }
 
     private Field[][] fields;
@@ -37,11 +41,16 @@ class BoardImpl implements Board {
     }
 
     @Override
-    public void makeMove(Checker checker, Position position) {
+    public void makeMove(Checker checker, Position newPosition) {
+        var oldPosition = checker.getPosition();
+        var oldField = getField(oldPosition);
+        var newField = getField(newPosition);
+        oldField.checker = null;
+        newField.checker = checker;
     }
 
     public boolean isOccupied(Position position) {
-        return false;
+        return getField(position).isOccupied();
     }
 
     private void initEmptyFields() {
@@ -57,5 +66,9 @@ class BoardImpl implements Board {
         for (Checker checker : checkers) {
             fields[checker.getPosition().getX()][checker.getPosition().getY()].checker = checker;
         }
+    }
+
+    private Field getField(Position position) {
+        return fields[position.getX()][position.getY()];
     }
 }
