@@ -23,9 +23,9 @@ public class BoardPrinter {
         for (int i = 0; i < 10; i++) {
             int reversedCounter = 10 - i;
             if (i == 0) {
-                System.out.print(" " + 10 + " |");
+                System.out.print(" " + getLetterForInt(10) + " |");
             } else {
-                System.out.print("  " + reversedCounter + " |");
+                System.out.print("  " + getLetterForInt(reversedCounter) + " |");
             }
             List<FieldDto> toPrintForRow = fields.subList(reversedCounter * 10 - 10, reversedCounter * 10);
             for (FieldDto field : toPrintForRow) {
@@ -42,7 +42,23 @@ public class BoardPrinter {
 
     void printBottomBorder() {
         System.out.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
-        System.out.println("      A   B   C   D   E   F   G   H   I   J");
+        System.out.println("      1   2   3   4   5   6   7   8   9   10");
+    }
+
+    char getLetterForInt(int i) {
+        return switch (i) {
+            case 10 -> 'J';
+            case 9 -> 'I';
+            case 8 -> 'H';
+            case 7 -> 'G';
+            case 6 -> 'F';
+            case 5 -> 'E';
+            case 4 -> 'D';
+            case 3 -> 'C';
+            case 2 -> 'B';
+            case 1 -> 'A';
+            default -> throw new IllegalArgumentException("Invalid value: " + i);
+        };
     }
 
 }
