@@ -42,7 +42,7 @@ class BoardImplTest {
         board.init(List.of(checker));
 
         assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalMoveException.class)
                 .hasMessageContaining("Horizontal move is not allowed");
     }
 
@@ -54,7 +54,7 @@ class BoardImplTest {
         board.init(List.of(checker));
 
         assertThatThrownBy(() -> board.makeMove(checker, finalPosition))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalMoveException.class)
                 .hasMessageContaining("Vertical move is not allowed");
     }
 }
