@@ -7,10 +7,10 @@ import java.util.List;
 @Component
 public class BoardPrinter {
 
-    public void printBoard(List<FieldDto> fields) {
+    public void print(Board board) {
         System.out.println("               *** GAME BOARD ***");
         printTopBorder();
-        printBoardInternally(fields);
+        printBoardInternally(board.getFields());
         printBottomBorder();
 
     }

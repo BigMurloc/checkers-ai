@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import pl.bigmurloc.checkersai.checkers.shared.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,6 +25,8 @@ public interface Board {
     List<FieldDto> getFields();
 
     void init();
+
+    boolean isFinished();
 }
 
 @Component
@@ -59,6 +62,18 @@ class BoardImpl implements Board {
     public void init() {
         List<Checker> checkers =  new BoardInitializationHelper().getCheckersAtPositions();
         init(checkers);
+    }
+
+    @Override
+    public boolean isFinished() {
+        var whiteCheckers = fieldsStream()
+                .filter(field -> field.isOccupied(CheckerColor.WHITE))
+                .count();
+        var blackCheckers = fieldsStream()
+                .filter(field -> field.isOccupied(CheckerColor.BLACK))
+                .count();
+
+        return (whiteCheckers == 0) || (blackCheckers == 0);
     }
 
     public void init(List<Checker> checkers) {
@@ -225,6 +240,11 @@ class BoardImpl implements Board {
         }
         return false;
     }
+
+    private Stream<Field> fieldsStream() {
+        return Arrays.stream(fields).flatMap(Arrays::stream);
+    }
+
 }
 
 class BoardInitializationHelper {
