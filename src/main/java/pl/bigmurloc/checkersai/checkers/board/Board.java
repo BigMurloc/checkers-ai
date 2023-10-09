@@ -217,8 +217,9 @@ class BoardImpl implements Board {
         for (Position diagonalPosition : diagonalPositions) {
             verifyMoveIsLegal(currentPosition, diagonalPosition);
             var diagonalField = getField(diagonalPosition);
-            if (diagonalField.isOccupied(enemyColor) &&  diagonalPosition.hasNextDiagonalPositionFrom(currentPosition)) {
-                result.add(new Move(currentPosition, diagonalPosition.nextDiagonalPositionFrom(currentPosition), currentColor));
+            var nextDiagonalPosition = diagonalPosition.nextDiagonalPositionFrom(currentPosition);
+            if (diagonalField.isOccupied(enemyColor) &&  nextDiagonalPosition.isPresent()) {
+                result.add(new Move(currentPosition, nextDiagonalPosition.get(), currentColor));
             } else if (!hasEnemyNeighboursAvailableForCapture && !diagonalField.isOccupied(currentColor)) {
                 result.add(new Move(currentPosition, diagonalPosition, currentColor));
             }
@@ -233,7 +234,7 @@ class BoardImpl implements Board {
             var field = getField(diagonalPosition);
             if (field.isOccupied() && field.checker.getColor() != color) {
                 var nextDiagonalPosition = diagonalPosition.nextDiagonalPositionFrom(position);
-                if (nextDiagonalPosition != null && !getField(nextDiagonalPosition).isOccupied()) {
+                if (nextDiagonalPosition.isPresent() && !getField(nextDiagonalPosition.get()).isOccupied()) {
                     return true;
                 }
             }

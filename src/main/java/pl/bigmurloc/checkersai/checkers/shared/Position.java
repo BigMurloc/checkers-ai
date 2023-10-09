@@ -3,6 +3,7 @@ package pl.bigmurloc.checkersai.checkers.shared;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Position {
     public List<Position> getDiagonalPositions() {
@@ -34,7 +35,7 @@ public class Position {
         return horizontal.toString() + vertical.toString();
     }
 
-    public Position nextDiagonalPositionFrom(Position originPosition) {
+    public Optional<Position> nextDiagonalPositionFrom(Position originPosition) {
         return new DiagonalPointsFinder().nextDiagonalPositionFrom(this, originPosition);
     }
 
@@ -167,18 +168,22 @@ class DiagonalPointsFinder {
         }
     }
 
-    Position nextDiagonalPositionFrom(Position currentPosition, Position originPosition) {
+    Optional<Position> nextDiagonalPositionFrom(Position currentPosition, Position originPosition) {
+        if (!hasNextDiagonalPosition(currentPosition, originPosition)) {
+            return Optional.empty();
+        }
+
         var direction = getDirection(originPosition, currentPosition);
 
         return switch (direction) {
             case UP_LEFT ->
-                    new Position(Position.Horizontal.fromX(currentPosition.getX() - 1), Position.Vertical.fromY(currentPosition.getY() + 1));
+                    Optional.of(new Position(Position.Horizontal.fromX(currentPosition.getX() - 1), Position.Vertical.fromY(currentPosition.getY() + 1)));
             case UP_RIGHT ->
-                    new Position(Position.Horizontal.fromX(currentPosition.getX() + 1), Position.Vertical.fromY(currentPosition.getY() + 1));
+                    Optional.of(new Position(Position.Horizontal.fromX(currentPosition.getX() + 1), Position.Vertical.fromY(currentPosition.getY() + 1)));
             case DOWN_LEFT ->
-                    new Position(Position.Horizontal.fromX(currentPosition.getX() - 1), Position.Vertical.fromY(currentPosition.getY() - 1));
+                    Optional.of(new Position(Position.Horizontal.fromX(currentPosition.getX() - 1), Position.Vertical.fromY(currentPosition.getY() - 1)));
             case DOWN_RIGHT ->
-                    new Position(Position.Horizontal.fromX(currentPosition.getX() + 1), Position.Vertical.fromY(currentPosition.getY() - 1));
+                    Optional.of(new Position(Position.Horizontal.fromX(currentPosition.getX() + 1), Position.Vertical.fromY(currentPosition.getY() - 1)));
         };
     }
 
