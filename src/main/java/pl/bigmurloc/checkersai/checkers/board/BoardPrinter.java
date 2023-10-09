@@ -23,7 +23,7 @@ public class BoardPrinter {
         for (int i = 0; i < 10; i++) {
             int reversedCounter = 10 - i;
             if (i == 0) {
-                System.out.print(" " + getLetterForInt(10) + " |");
+                System.out.print("  " + getLetterForInt(10) + " |");
             } else {
                 System.out.print("  " + getLetterForInt(reversedCounter) + " |");
             }
