@@ -27,10 +27,23 @@ public interface Board {
     void init();
 
     boolean isFinished();
+
+    int scoreFor(CheckerColor color);
+
+    Board clone();
 }
 
 @Component
 class BoardImpl implements Board {
+
+    public BoardImpl(Field[][] fields) {
+        initEmptyFields();
+        List<Checker> copiedCheckers = fieldsStream(fields)
+                .filter(Field::isOccupied)
+                .map(field -> field.checker.clone())
+                .toList();
+        init(copiedCheckers);
+    }
 
     class Field {
         private Checker checker;
@@ -74,6 +87,26 @@ class BoardImpl implements Board {
                 .count();
 
         return (whiteCheckers == 0) || (blackCheckers == 0);
+    }
+
+    @Override
+    public int scoreFor(CheckerColor color) {
+        int whiteScore = calculateScoreFor(color);
+        int blackScore = calculateScoreFor(color);
+
+        return color == CheckerColor.WHITE ? whiteScore - blackScore : blackScore - whiteScore;
+    }
+
+    private int calculateScoreFor(CheckerColor color) {
+        return fieldsStream()
+                .filter(field -> field.isOccupied(color))
+                .map(field -> field.checker.getScore())
+                .reduce(0, Integer::sum);
+    }
+
+    @Override
+    public Board clone() {
+        return new BoardImpl(fields);
     }
 
     public void init(List<Checker> checkers) {
@@ -243,6 +276,10 @@ class BoardImpl implements Board {
     }
 
     private Stream<Field> fieldsStream() {
+        return Arrays.stream(fields).flatMap(Arrays::stream);
+    }
+
+    private Stream<Field> fieldsStream(Field[][] fields) {
         return Arrays.stream(fields).flatMap(Arrays::stream);
     }
 

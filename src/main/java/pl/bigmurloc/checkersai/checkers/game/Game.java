@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import pl.bigmurloc.checkersai.checkers.board.Board;
 import pl.bigmurloc.checkersai.checkers.board.BoardPrinter;
 import pl.bigmurloc.checkersai.checkers.board.CheckerColor;
+import pl.bigmurloc.checkersai.checkers.player.AIPlayer;
 import pl.bigmurloc.checkersai.checkers.player.HumanPlayer;
 import pl.bigmurloc.checkersai.checkers.player.Player;
 
@@ -25,7 +26,7 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         var turnColor = CheckerColor.WHITE;
         Player whitePlayer = new HumanPlayer(CheckerColor.WHITE, scanner);
-        Player blackPlayer = new HumanPlayer(CheckerColor.BLACK, scanner);
+        Player blackPlayer = new AIPlayer(CheckerColor.BLACK);
         while (!board.isFinished()) {
             boardPrinter.print(board);
             if (turnColor == CheckerColor.WHITE) {
