@@ -2,9 +2,10 @@ package pl.bigmurloc.checkersai.checkers.board;
 
 import pl.bigmurloc.checkersai.checkers.shared.Position;
 
+/**
+ * Represents a checker on the board
+ */
 class Checker {
-
-
 
     enum CheckerRank {
         MAN,

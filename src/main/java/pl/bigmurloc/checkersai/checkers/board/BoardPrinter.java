@@ -4,9 +4,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Class that prints the board to the console
+ */
 @Component
 public class BoardPrinter {
 
+    /**
+     * Prints the board to the console
+     * @param board board to print
+     */
     public void print(Board board) {
         System.out.println("               *** GAME BOARD ***");
         printTopBorder();
@@ -15,10 +22,17 @@ public class BoardPrinter {
 
     }
 
+    /**
+     * Prints the top border of the board
+     */
     void printTopBorder() {
         System.out.println("__________________________________________________");
     }
 
+    /**
+     * Prints the content of the board and its current state based on provided fields
+     * @param fields list of fields to print
+     */
     private void printBoardInternally(List<FieldDto> fields) {
         for (int i = 0; i < 10; i++) {
             int reversedCounter = 10 - i;
@@ -40,11 +54,17 @@ public class BoardPrinter {
         }
     }
 
+    /**
+     * Prints the bottom border of the board
+     */
     void printBottomBorder() {
         System.out.println("");
         System.out.println("      1   2   3   4   5   6   7   8   9   10");
     }
 
+    /**
+     * Helper method that returns a letter for a given integer on the board
+     */
     char getLetterForInt(int i) {
         return switch (i) {
             case 10 -> 'J';

@@ -10,28 +10,70 @@ import java.util.stream.Stream;
 
 import static pl.bigmurloc.checkersai.checkers.shared.Position.Horizontal.*;
 
+/**
+ * Represents a board of the game
+ */
 public interface Board {
 
+    /**
+     * Length of X axis
+     */
     int X_DIMENSION = 10;
+    /**
+     * Length of Y axis
+     */
     int Y_DIMENSION = 10;
     @Deprecated
     void makeMove(Checker checker, Position position);
+
+    /**
+     * Performs move on a board
+     * @param move Move to be made
+     */
     void makeMove(Move move);
 
+    /**
+     * @param position Position on a board
+     * @return True if the position is occupied by a checker
+     */
     boolean isOccupied(Position position);
 
+    /**
+     * @param color Color of the player used to determine which checkers to check
+     * @return List of legal moves on the board for a given player. Favors the moves with captures.
+     */
     List<Move> availableMoves(CheckerColor color);
 
+    /**
+     * @return List of all immutable fields on the board
+     */
     List<FieldDto> getFields();
 
+    /**
+     * Initializes the board
+     */
     void init();
 
+    /**
+     * @return True if the game is finished, false otherwise
+     */
     boolean isFinished();
 
+    /**
+     * @param color Color of the player used to determine which checkers to check
+     * @return Score for a given player
+     */
     int scoreFor(CheckerColor color);
 
+    /**
+     * @return Cloned version of the board to perform simulation for AI purposes
+     */
     Board clone();
 
+    /**
+     * @param checkerColor Color of the player used to determine which checkers to check
+     * @return Number of pieces left for a given player
+     */
     int piecesLeft(CheckerColor checkerColor);
 }
 
@@ -296,15 +338,25 @@ class BoardImpl implements Board {
 
 }
 
+/**
+ * Helper class for initializing the board with checkers
+ */
 class BoardInitializationHelper {
 
     private int id = 1;
     private final List<Position.Horizontal> whiteRows = List.of(A, B, C, D);
     private final List<Position.Horizontal> blackRows = List.of(G, H, I, J);
+
+    /**
+     * @return list of checkers with their initial positions
+     */
     List<Checker> getCheckersAtPositions() {
         return initCheckers();
     }
 
+    /**
+     * @return initialized list of checkers with their initial positions
+     */
     private List<Checker> initCheckers() {
         List<Position.Horizontal> rows = Stream.of(whiteRows, blackRows).flatMap(List::stream).toList();
         List<Checker> result = new ArrayList<>();
@@ -324,6 +376,10 @@ class BoardInitializationHelper {
         return result;
     }
 
+    /**
+     * @param horizontal horizontal position
+     * @return color of the checker based on the row
+     */
     private CheckerColor resolveColorBasedOnRow(Position.Horizontal horizontal) {
         if (!whiteRows.contains(horizontal) && !blackRows.contains(horizontal)) {
             throw new IllegalArgumentException("Horizontal position is not valid");
@@ -332,10 +388,19 @@ class BoardInitializationHelper {
         return whiteRows.contains(horizontal) ? CheckerColor.WHITE : CheckerColor.BLACK;
     }
 
+    /**
+     * @param horizontal the row to check
+     * @return true if the row is odd numbered
+     */
     private boolean isOddNumberedRow(Position.Horizontal horizontal) {
         return List.of(A, C, G, I).contains(horizontal);
     }
 
+
+    /**
+     * @param horizontal the row to check
+     * @return true if the row is even numbered
+     */
     private boolean isEvenNumberedRow(Position.Horizontal horizontal) {
         return List.of(B, D, H, J).contains(horizontal);
     }

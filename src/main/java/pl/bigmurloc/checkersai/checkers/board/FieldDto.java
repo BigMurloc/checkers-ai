@@ -2,6 +2,9 @@ package pl.bigmurloc.checkersai.checkers.board;
 
 import pl.bigmurloc.checkersai.checkers.shared.Position;
 
+/**
+ * Represents a field on the board without possibility of modification
+ */
 class FieldDto {
     private Checker checker;
     private Position position;
