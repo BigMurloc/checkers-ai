@@ -6,6 +6,9 @@ import pl.bigmurloc.checkersai.checkers.board.Move;
 
 import java.util.Scanner;
 
+/**
+ * Class representing a human player
+ */
 public class HumanPlayer implements Player {
 
     CheckerColor color;
@@ -21,6 +24,12 @@ public HumanPlayer(CheckerColor color, Scanner scanner) {
         return color;
     }
 
+    /**
+     * The method asks the user for a move, performs it on the board and returns it
+     *
+     * @param board current board
+     * @return player chosen move
+     */
     @Override
     public Move makeMove(Board board) {
         var moves = board.availableMoves(color);

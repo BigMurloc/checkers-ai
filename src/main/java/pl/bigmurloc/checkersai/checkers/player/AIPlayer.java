@@ -7,6 +7,9 @@ import pl.bigmurloc.checkersai.checkers.board.Move;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class representing an AI player
+ */
 public class AIPlayer implements Player {
 
     private final CheckerColor color;
@@ -21,6 +24,12 @@ public class AIPlayer implements Player {
         return color;
     }
 
+    /**
+     * The AI player uses the minimax algorithm to find the best move
+     *
+     * @param board current board
+     * @return player chosen move
+     */
     @Override
     public Move makeMove(Board board) {
         var moves = board.availableMoves(color);
