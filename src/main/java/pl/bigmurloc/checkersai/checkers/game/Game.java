@@ -22,6 +22,11 @@ public class Game {
         this.board = board;
     }
 
+    /**
+     * Method that initializes the game and runs it
+     * It decides who's turn it is and asks the player for a move
+     * Then it prints the board, move and score
+     */
     public void init() {
         board.init();
         Scanner scanner = new Scanner(System.in);
