@@ -31,6 +31,8 @@ public interface Board {
     int scoreFor(CheckerColor color);
 
     Board clone();
+
+    int piecesLeft(CheckerColor checkerColor);
 }
 
 @Component
@@ -91,8 +93,8 @@ class BoardImpl implements Board {
 
     @Override
     public int scoreFor(CheckerColor color) {
-        int whiteScore = calculateScoreFor(color);
-        int blackScore = calculateScoreFor(color);
+        int whiteScore = calculateScoreFor(CheckerColor.WHITE);
+        int blackScore = calculateScoreFor(CheckerColor.BLACK);
 
         return color == CheckerColor.WHITE ? whiteScore - blackScore : blackScore - whiteScore;
     }
@@ -107,6 +109,11 @@ class BoardImpl implements Board {
     @Override
     public Board clone() {
         return new BoardImpl(fields);
+    }
+
+    @Override
+    public int piecesLeft(CheckerColor checkerColor) {
+        return fieldsStream().filter(field -> field.isOccupied(checkerColor)).toList().size();
     }
 
     public void init(List<Checker> checkers) {

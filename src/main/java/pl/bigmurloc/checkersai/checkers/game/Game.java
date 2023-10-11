@@ -25,7 +25,8 @@ public class Game {
         board.init();
         Scanner scanner = new Scanner(System.in);
         var turnColor = CheckerColor.WHITE;
-        Player whitePlayer = new HumanPlayer(CheckerColor.WHITE, scanner);
+//        Player whitePlayer = new HumanPlayer(CheckerColor.WHITE, scanner);
+        Player whitePlayer = new AIPlayer(CheckerColor.WHITE);
         Player blackPlayer = new AIPlayer(CheckerColor.BLACK);
         while (!board.isFinished()) {
             boardPrinter.print(board);
@@ -36,6 +37,10 @@ public class Game {
                 blackPlayer.makeMove(board);
                 turnColor = CheckerColor.WHITE;
             }
+            System.out.printf("Turn: %s%n", turnColor);
+            System.out.println("White pieces left: " + board.piecesLeft(CheckerColor.WHITE));
+            System.out.println("Black pieces left: " + board.piecesLeft(CheckerColor.BLACK));
+            System.out.println("Score: " + board.scoreFor(turnColor));
         }
     }
 }
