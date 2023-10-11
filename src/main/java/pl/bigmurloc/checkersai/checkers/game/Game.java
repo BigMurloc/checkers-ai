@@ -26,8 +26,7 @@ public class Game {
         board.init();
         Scanner scanner = new Scanner(System.in);
         var turnColor = CheckerColor.WHITE;
-//        Player whitePlayer = new HumanPlayer(CheckerColor.WHITE, scanner);
-        Player whitePlayer = new AIPlayer(CheckerColor.WHITE);
+        Player whitePlayer = new HumanPlayer(CheckerColor.WHITE, scanner);
         Player blackPlayer = new AIPlayer(CheckerColor.BLACK);
         while (!board.isFinished()) {
             boardPrinter.print(board);
