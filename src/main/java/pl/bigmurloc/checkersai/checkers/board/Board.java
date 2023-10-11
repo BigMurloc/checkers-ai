@@ -163,6 +163,10 @@ class BoardImpl implements Board {
             }
         }
 
+        if (result.stream().filter(Move::captures).toList().size() > 0) {
+            return result.stream().filter(Move::captures).toList();
+        }
+
         return result;
     }
 
@@ -259,9 +263,9 @@ class BoardImpl implements Board {
             var diagonalField = getField(diagonalPosition);
             var nextDiagonalPosition = diagonalPosition.nextDiagonalPositionFrom(currentPosition);
             if (diagonalField.isOccupied(enemyColor) &&  nextDiagonalPosition.isPresent()) {
-                result.add(new Move(currentPosition, nextDiagonalPosition.get(), currentColor));
+                result.add(new Move(currentPosition, nextDiagonalPosition.get(), currentColor, true));
             } else if (!hasEnemyNeighboursAvailableForCapture && !diagonalField.isOccupied(currentColor)) {
-                result.add(new Move(currentPosition, diagonalPosition, currentColor));
+                result.add(new Move(currentPosition, diagonalPosition, currentColor, false));
             }
         }
 

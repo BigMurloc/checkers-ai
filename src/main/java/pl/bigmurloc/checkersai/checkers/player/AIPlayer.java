@@ -22,7 +22,7 @@ public class AIPlayer implements Player {
     }
 
     @Override
-    public void makeMove(Board board) {
+    public Move makeMove(Board board) {
         var moves = board.availableMoves(color);
 
         Map<Integer, Move> scoreToMoveMap = new HashMap<>();
@@ -35,5 +35,6 @@ public class AIPlayer implements Player {
         Integer maxScore = scoreToMoveMap.keySet().stream().max(Integer::compareTo).get();
 
         board.makeMove(scoreToMoveMap.get(maxScore));
+        return scoreToMoveMap.get(maxScore);
     }
 }

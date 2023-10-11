@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import pl.bigmurloc.checkersai.checkers.board.Board;
 import pl.bigmurloc.checkersai.checkers.board.BoardPrinter;
 import pl.bigmurloc.checkersai.checkers.board.CheckerColor;
+import pl.bigmurloc.checkersai.checkers.board.Move;
 import pl.bigmurloc.checkersai.checkers.player.AIPlayer;
 import pl.bigmurloc.checkersai.checkers.player.HumanPlayer;
 import pl.bigmurloc.checkersai.checkers.player.Player;
@@ -30,16 +31,18 @@ public class Game {
         Player blackPlayer = new AIPlayer(CheckerColor.BLACK);
         while (!board.isFinished()) {
             boardPrinter.print(board);
+            Move chosenMove = null;
             if (turnColor == CheckerColor.WHITE) {
-                whitePlayer.makeMove(board);
+                chosenMove = whitePlayer.makeMove(board);
                 turnColor = CheckerColor.BLACK;
             } else {
-                blackPlayer.makeMove(board);
+                chosenMove = blackPlayer.makeMove(board);
                 turnColor = CheckerColor.WHITE;
             }
             System.out.printf("Turn: %s%n", turnColor);
             System.out.println("White pieces left: " + board.piecesLeft(CheckerColor.WHITE));
             System.out.println("Black pieces left: " + board.piecesLeft(CheckerColor.BLACK));
+            System.out.println("Chosen move: " + chosenMove);
             System.out.println("Score: " + board.scoreFor(turnColor));
         }
     }

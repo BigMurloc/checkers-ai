@@ -2,6 +2,7 @@ package pl.bigmurloc.checkersai.checkers.player;
 
 import pl.bigmurloc.checkersai.checkers.board.Board;
 import pl.bigmurloc.checkersai.checkers.board.CheckerColor;
+import pl.bigmurloc.checkersai.checkers.board.Move;
 
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public HumanPlayer(CheckerColor color, Scanner scanner) {
     }
 
     @Override
-    public void makeMove(Board board) {
+    public Move makeMove(Board board) {
         var moves = board.availableMoves(color);
         System.out.println("Available moves: ");
         for (int i = 0; i < moves.size(); i++) {
@@ -30,5 +31,6 @@ public HumanPlayer(CheckerColor color, Scanner scanner) {
         System.out.println("Choose move: ");
         var chosenMove = moves.get(scanner.nextInt());
         board.makeMove(chosenMove);
+        return chosenMove;
     }
 }
