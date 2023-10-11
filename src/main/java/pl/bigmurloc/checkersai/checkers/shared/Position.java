@@ -5,7 +5,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Representation of position on the board
+ */
 public class Position {
+
+    /**
+     * @return Returns possible the diagonal positions relative to current position, excludes positions outside of board bounds
+     */
     public List<Position> getDiagonalPositions() {
         List<Position> positions = new ArrayList<>();
         int x = getX();
@@ -35,6 +42,10 @@ public class Position {
         return horizontal.toString() + vertical.toString();
     }
 
+    /**
+     * @param originPosition The origin position
+     * @return Returns the next diagonal position from the origin position, empty if outside of board bounds
+     */
     public Optional<Position> nextDiagonalPositionFrom(Position originPosition) {
         return new DiagonalPointsFinder().nextDiagonalPositionFrom(this, originPosition);
     }
@@ -43,6 +54,9 @@ public class Position {
         return new DiagonalPointsFinder().hasNextDiagonalPosition(this, originPosition);
     }
 
+    /**
+     * Horizontal representation of fields on the board
+     */
     public enum Horizontal {
         A,
         B,
@@ -55,15 +69,26 @@ public class Position {
         I,
         J;
 
+
+        /**
+         * @return Returns the X coordinate of the Horizontal enum in cartesian coordinate system
+         */
         public int getX() {
             return this.ordinal();
         }
 
+        /**
+         * @param x The X coordinate of the Horizontal enum in cartesian coordinate system
+         * @return Returns the Horizontal enum value for given X coordinate
+         */
         public static Horizontal fromX(int x) {
             return Horizontal.values()[x];
         }
     }
 
+    /**
+     * Vertical representation of fields on the board
+     */
     public enum Vertical {
         ONE,
         TWO,
@@ -76,22 +101,38 @@ public class Position {
         NINE,
         TEN;
 
+        /**
+         * @return Returns the Y coordinate of the Vertical enum in cartesian coordinate system
+         */
         public int getY() {
             return this.ordinal();
         }
 
+        /**
+         * @param y The Y coordinate of the Vertical enum in cartesian coordinate system
+         * @return Returns the Vertical enum value for given Y coordinate
+         */
         public static Vertical fromY(int y) {
             return Vertical.values()[y];
         }
 
+        /**
+         * @return Returns true if the Vertical enum is odd, false otherwise
+         */
         public boolean isOdd() {
             return (this.ordinal() + 1) % 2 != 0; // +1 because ordinal starts from 0
         }
 
+        /**
+         * @return Returns true if the Vertical enum is even, false otherwise
+         */
         public boolean isEven() {
             return (this.ordinal() + 1) % 2 == 0; // +1 because ordinal starts from 0
         }
 
+        /**
+         * @return Returns the string representation of the Vertical enum
+         */
         @Override
         public String toString() {
             return switch (this) {
@@ -145,6 +186,9 @@ public class Position {
 
 class DiagonalPointsFinder {
 
+    /**
+     * Representation of direction relative to destination position from origin position
+     */
     enum Direction {
         UP_LEFT,
         UP_RIGHT,
@@ -152,6 +196,11 @@ class DiagonalPointsFinder {
         DOWN_RIGHT
     }
 
+    /**
+     * @param a The origin position
+     * @param b The destination position
+     * @return Returns the list of positions between a and b, a & b exclusive
+     */
     List<Position> findDiagonalPointsBetweenTwoPoints(Position a, Position b) {
         var direction = getDirection(a, b);
         switch (direction) {
@@ -168,6 +217,11 @@ class DiagonalPointsFinder {
         }
     }
 
+    /**
+     * @param currentPosition The current position
+     * @param originPosition The origin position
+     * @return Optional of Position, empty if the position would be outside of board bounds
+     */
     Optional<Position> nextDiagonalPositionFrom(Position currentPosition, Position originPosition) {
         if (!hasNextDiagonalPosition(currentPosition, originPosition)) {
             return Optional.empty();
@@ -187,6 +241,12 @@ class DiagonalPointsFinder {
         };
     }
 
+    /**
+     *
+     * @param currentPosition The current position
+     * @param originPosition The origin position
+     * @return Returns true if there is a next diagonal position from the current position in the direction of the origin position and false if the position would be outside of board bounds
+     */
     boolean hasNextDiagonalPosition(Position currentPosition, Position originPosition) {
         var direction = getDirection(originPosition, currentPosition);
 
@@ -198,6 +258,11 @@ class DiagonalPointsFinder {
         };
     }
 
+    /**
+     * @param a The origin position
+     * @param b The destination position
+     * @return Returns the diagonal points between a and b in the down-right direction a & b exclusive
+     */
     private List<Position> findDiagonalPointsDownRight(Position a, Position b) {
         var startingX = a.getX();
         var startingY = a.getY();
@@ -215,6 +280,11 @@ class DiagonalPointsFinder {
         return diagonalPoints;
     }
 
+    /**
+     * @param a The origin position
+     * @param b The destination position
+     * @return Returns the diagonal points between a and b in the down-left direction a & b exclusive
+     */
     private List<Position> findDiagonalPointsDownLeft(Position a, Position b) {
         var startingX = a.getX();
         var startingY = a.getY();
@@ -232,6 +302,11 @@ class DiagonalPointsFinder {
         return diagonalPoints;
     }
 
+    /**
+     * @param a The origin position
+     * @param b The destination position
+     * @return Returns the diagonal points between a and b in the up-right direction a & b exclusive
+     */
     private List<Position> findDiagonalPointsUpRight(Position a, Position b) {
         var startingX = a.getX();
         var startingY = a.getY();
@@ -249,6 +324,11 @@ class DiagonalPointsFinder {
         return diagonalPoints;
     }
 
+    /**
+     * @param a The origin position
+     * @param b The destination position
+     * @return Returns the diagonal points between a and b in the up-left direction a & b exclusive
+     */
     private List<Position> findDiagonalPointsUpLeft(Position a, Position b) {
         var startingX = a.getX();
         var startingY = a.getY();
@@ -266,6 +346,11 @@ class DiagonalPointsFinder {
         return diagonalPoints;
     }
 
+    /**
+     * @param a The origin position
+     * @param b The destination position
+     * @return Returns the direction from a to b (whether the b is in the up-left, up-right, down-left or down-right corner relative to a)
+     */
     private Direction getDirection(Position a, Position b) {
         if (a.getX() > b.getX() && a.getY() < b.getY()) {
             return Direction.UP_LEFT;
